@@ -50,7 +50,7 @@ The project's venv runs Python 3.7 which cannot import the codebase (Python 3.9+
 
 ### Check-in 2 (end of week)
 
-**PR link:** [link to be added after opening PR]
+**PR link:** https://github.com/ascherj/pathreview/pull/422
 
 **Branch:** `fix/146-pii-scrubber-parenthesized-phones`
 
