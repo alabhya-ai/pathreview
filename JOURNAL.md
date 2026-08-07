@@ -66,3 +66,22 @@ Fixed the `phone_us` regex in `PIIScrubber.PII_PATTERNS` (`safety/pii_scrubber.p
 `make test-unit` exits with code 2 due to 18 collection errors in unrelated test files. All errors are caused by the project venv running Python 3.7, which cannot parse Python 3.9+ generic type hints (`list[dict]`, `str | None`) used throughout the codebase. These failures exist on `main` before any of my changes. My changes introduce no new failures — `test_pii_scrubber.py` (the only file I touched) has 2 failures that are also pre-existing: `test_us_phone_formats` (the `+1 555 123 4567` all-space format was never supported — my fix actually improves this from 2 failing formats to 1) and `test_mixed_pii_and_text` (caused by the unrelated `street_address` regex greedily matching `"5 years developing Python appl"` via the `Pl` suffix keyword).
 
 **Draft PR feedback received from:** none
+
+---
+
+## Week 10 — Reflection
+
+**What was harder than you expected?**
+Making sense of the existing test suite was harder than I anticipated. The tests weren't well-documented and several were failing for pre-existing, unrelated reasons (the Python 3.7 venv issue), so it took time to distinguish failures I owned from failures that were already there before I touched anything. Figuring out which failures to care about and which to document-and-ignore was a judgment call I hadn't expected to have to make.
+
+**What did you learn about working in a large codebase?**
+Commit message quality matters much more than I expected. In my own projects I write terse commit messages because I'm the only one who reads them — but in a shared repo, good formatting and clear scope (`fix:`, `docs:`, `test:` prefixes, precise subject lines) is how reviewers and future contributors build trust in your changes without reading every line of code. It's a form of communication, not just bookkeeping.
+
+**How did AI tools help — and where did they fall short?**
+AI assistance was most useful for navigating an unfamiliar codebase quickly — finding the right file, understanding what a regex was doing, and drafting test cases. Where it fell short was around environment and infrastructure issues: when Docker wasn't behaving or environment variables weren't threading through correctly, the AI gave plausible-sounding suggestions that didn't account for the specific state of my local machine. Those problems required me to read logs carefully and reason through the system myself.
+
+**What would you do differently if you started over?**
+I'd verify the local environment (venv Python version, `make` targets, Docker) before writing a single line of code. The pre-existing Python 3.7/3.9+ incompatibility cost me time I could have spent on the actual fix, and I only discovered it late because I assumed the environment was healthy.
+
+**What are you most proud of from this module?**
+Working with git confidently. By the end I was comfortable branching, staging selectively, writing structured commit messages, and reasoning about what should and shouldn't go into a commit — skills that felt mechanical before but now feel like a natural part of how I think about a change.
